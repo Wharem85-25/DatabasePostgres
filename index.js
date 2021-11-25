@@ -1,65 +1,26 @@
 const express = require('express');
-const faker = require('faker');
+const routerApi = require('./routes');
+const { logErrors, errorHandler, boomErrorHandler } = require('./middlewares/error.handler');
+
 const app = express();
 const port = 3000;
 
+app.use(express.json());
+
 app.get('/', (req, res) => {
-  res.send('hello word');
-})
-
-app.get('/new-route', (req, res) => {
-  res.send('new route');
-})
-
-app.get('/products', (req, res) => {
-  const products = [];
-  const { size } = req.query;
-  const limit = size || 10;
-  for(let i =0; i< limit; i++) {
-    products.push({
-      name: faker.commerce.productName(),
-      price: parseInt(faker.commerce.price(), 10),
-      image: faker.image.imageUrl(),
-    })
-  }
-  res.json(products);
+  res.send('Hola mi server en express');
 });
 
-app.get('/products/filter', (req, res) => {
-  res.send('I am a product')
-})
-
-app.get('/products/:id', (req, res) => {
-  const { id } = req.params;
-  res.json(
-    {
-      id,
-    name: 'product 1',
-    price: 100
-  });
+app.get('/nueva-ruta', (req, res) => {
+  res.send('Hola, soy una nueva ruta');
 });
 
-app.get('/categories/:categoryId/products/:productsId', (req, res) => {
-  const { categoryId, productsId } = req.params;
-  res.json(
-    {
-    categoryId,
-    productsId,
-  });
-})
+routerApi(app);
 
-app.get('/users', (req, res) => {
-  const { limit, offset } = req.query;
-  if(limit && offset) {
-    res.json({
-      limit,
-      offset
-    });
-  } else {
-    res.send("Do not params");
-  }
-})
+app.use(logErrors);
+app.use(boomErrorHandler);
+app.use(errorHandler);
 
 app.listen(port, () => {
-  console.log('Port ' + port);
+  console.log('Mi port' +  port);
 });
