@@ -29,11 +29,11 @@ router.get('/:id',
   }
 );
 
-router.post('/',
-  validatorHandler(createUserSchema, 'body'),
+router.post('/', validatorHandler(createUserSchema, 'body'),
   async (req, res, next) => {
     try {
       const body = req.body;
+      // console.log(body);
       const newCategory = await service.create(body);
       res.status(201).json(newCategory);
     } catch (error) {
