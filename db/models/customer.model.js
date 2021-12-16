@@ -6,6 +6,7 @@ const CUSTOMER_TABLE = 'customer';
 const CustomerSchema = {
   id: {
     autoIncrement: true,
+    allowNull: false,
     primaryKey: true,
     type: DataTypes.INTEGER
   },
@@ -52,7 +53,8 @@ class Customer extends Model {
       sequelize,
       tableName: CUSTOMER_TABLE,
       modelName: 'Customer',
-      timestamp: false
+      timestamp: false,
+      updatedAt: false
     }
   }
 }
