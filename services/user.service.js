@@ -1,22 +1,30 @@
 const boom = require('@hapi/boom');
-// const getConnection = require ('../libs/postgres');
-// const pool = require('../libs/postgres.pool');
-const  Sequelize  = require('./../libs/sequelize');
+const bcrypt = require('bcrypt');
+const Sequelize  = require('./../libs/sequelize');
 const models = Sequelize.sequelize.models
 class UserService {
-  constructor() {
-    // this.pool = pool;
-    // this.pool.on('error',(err) => console.error(err) )
-  }
+  constructor() {}
 
   async create(data) {
-    const newUser = await models.User.create(data);
+    const hash = await bcrypt.hash(data.password, 10);
+    const newUser = await models.User.create({
+      ...data,
+      password: hash
+    });
+    delete newUser.dataValues.password;
     return newUser;
   }
 
   async find() {
     const res = await models.User.findAll({
       include: ['customer']
+    });
+    return res;
+  }
+
+  async findByEmail(email) {
+    const res = await models.User.findOne({
+      where: { email }
     });
     return res;
   }
