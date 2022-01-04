@@ -2,14 +2,18 @@ require('dotenv').config();
 
 const config = {
   env: process.env.NODE_ENV || 'dev',
+  isProd: process.env.NODE_ENV || 'production',
   port: process.env.PORT || 3000,
-  dbUser: process.env.DB_USER || 'wharem',
-  dbPassword: process.env.DB_PASSWORD || 'admin2545',
-  dbHost: process.env.DB_HOST || 'localhost',
-  dbName: process.env.DB_NAME || 'my_store',
-  dbPort: process.env.DB_PORT || '5432',
+  dbUser: process.env.DB_USER,
+  dbPassword: process.env.DB_PASSWORD,
+  dbHost: process.env.DB_HOST,
+  dbName: process.env.DB_NAME,
+  dbPort: process.env.DB_PORT,
+  dbUrl: process.env.DATABASE_URL,
   apiKey: process.env.API_KEY,
-  jwtSecret: process.env.JWT_SECRET
+  jwtSecret: process.env.JWT_SECRET,
+  emailP:process.env.EMAIL_P,
+  passwordP:process.env.PASSWORD_P,
 }
 
 module.exports = { config };
