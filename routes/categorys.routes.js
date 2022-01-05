@@ -11,7 +11,7 @@ const service = new CategoryService();
 
 router.get('/',
   passport.authenticate('jwt', {session: false}),
-  checkRole(['admin', 'customer']),
+  checkRole('admin', 'customer', 'seller'),
   async (req, res, next) => {
   try {
     const categories = await service.find();
@@ -23,7 +23,7 @@ router.get('/',
 
 router.get('/:id',
   passport.authenticate('jwt', {session: false}),
-  checkRole(['admin', 'customer']),
+  checkRole('admin', 'customer', 'seller'),
   validatorHandler(getCategorySchema, 'params'),
   async (req, res, next) => {
     try {
@@ -38,7 +38,7 @@ router.get('/:id',
 
 router.post('/',
   passport.authenticate('jwt', {session: false}),
-  checkRole(['admin']),
+  checkRole('admin'),
   validatorHandler(createCategorySchema, 'body'),
   async (req, res, next) => {
     try {
@@ -53,7 +53,7 @@ router.post('/',
 
 router.patch('/:id',
   passport.authenticate('jwt', {session: false}),
-  checkRole(['admin']),
+  checkRole('admin', 'seller'),
   validatorHandler(getCategorySchema, 'params'),
   validatorHandler(updateCategorySchema, 'body'),
   async (req, res, next) => {
@@ -70,7 +70,7 @@ router.patch('/:id',
 
 router.delete('/:id',
   passport.authenticate('jwt', {session: false}),
-  checkRole(['admin', 'customer']),
+  checkRole('admin', 'seller'),
   validatorHandler(getCategorySchema, 'params'),
   async (req, res, next) => {
     try {
